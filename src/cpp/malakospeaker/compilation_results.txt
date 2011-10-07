@@ -1,0 +1,4 @@
+main.cpp
+c:\Program Files\Microsoft Visual Studio 10.0\VC\INCLUDE\xlocale(323) : warning C4530: C++ exception handler used, but unwind semantics are not enabled. Specify /EHsc
+main.cpp(18) : error C2440: '=' : cannot convert from 'const char [21]' to 'CHAR (*)[128]'
+        Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
