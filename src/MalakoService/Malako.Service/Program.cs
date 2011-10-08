@@ -16,7 +16,7 @@ namespace Malako.Service
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[] 
 			{ 
-				new MainService() 
+				new MalakoService() 
 			};
             ServiceBase.Run(ServicesToRun);
         }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Malako.TFSProxy
 {
-    class Task
+    public class Task
     {
         public int Id { get; set; }
         public DateTime DataDigitacao { get; set; }
