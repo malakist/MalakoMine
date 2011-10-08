@@ -59,12 +59,13 @@
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\$(ProjectName).dll"
 				GenerateManifest="false"
-				ModuleDefinitionFile=""
-				GenerateDebugInformation="true"
+				ModuleDefinitionFile="malakosnd.def"
+				GenerateDebugInformation="false"
 				GenerateMapFile="false"
 				MapFileName=""
 				MapExports="false"
-				ResourceOnlyDLL="true"
+				ResourceOnlyDLL="false"
+				RandomizedBaseAddress="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -170,6 +171,10 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
+			<File
+				RelativePath=".\malakosnd.def"
+				>
+			</File>
 			<File
 				RelativePath=".\soundplayer.cpp"
 				>

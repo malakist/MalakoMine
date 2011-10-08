@@ -1,5 +1,9 @@
 #include <windows.h>
 
-void __declspec(dllexport) PlaySound() {
+extern "C" void MalakoSound() {
 	Beep(750, 300);
+}
+
+int main(void) {
+	return 0;
 }

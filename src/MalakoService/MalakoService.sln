@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "malakosnd", "malakosnd\mala
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MalaKonsole", "MalaKonsole\MalaKonsole.csproj", "{0495CBE5-5C7F-4A93-9EEF-A5E789015DA5}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "malakoexport", "malakoexport\malakoexport.vcproj", "{9769432B-14E6-4038-8F33-A7267F8EE04F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,16 @@ Global
 		{0495CBE5-5C7F-4A93-9EEF-A5E789015DA5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{0495CBE5-5C7F-4A93-9EEF-A5E789015DA5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{0495CBE5-5C7F-4A93-9EEF-A5E789015DA5}.Release|Win32.ActiveCfg = Release|Any CPU
+		{9769432B-14E6-4038-8F33-A7267F8EE04F}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{9769432B-14E6-4038-8F33-A7267F8EE04F}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{9769432B-14E6-4038-8F33-A7267F8EE04F}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{9769432B-14E6-4038-8F33-A7267F8EE04F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9769432B-14E6-4038-8F33-A7267F8EE04F}.Debug|Win32.Build.0 = Debug|Win32
+		{9769432B-14E6-4038-8F33-A7267F8EE04F}.Release|Any CPU.ActiveCfg = Release|Win32
+		{9769432B-14E6-4038-8F33-A7267F8EE04F}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{9769432B-14E6-4038-8F33-A7267F8EE04F}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{9769432B-14E6-4038-8F33-A7267F8EE04F}.Release|Win32.ActiveCfg = Release|Win32
+		{9769432B-14E6-4038-8F33-A7267F8EE04F}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,3 @@
+LIBRARY "malakosnd"
+EXPORTS
+	MalakoSound		@1

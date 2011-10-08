@@ -12,7 +12,7 @@ public class MalakoService : ServiceBase
     private System.Timers.Timer timer = null;
     private DateTime dataUltimaAnalise = DateTime.MinValue; //TODO: isto deveria poder ser gravado e recuperado de um arquivo
 
-    [DllImport("malakosnd.dll", EntryPoint = "?PlaySoundA@@YAXXZ")]
+    [DllImport("malakosnd.dll", EntryPoint = "MalakoSound")]
     private static extern void PlaySound();
     
     private void CleanObj(object o) 
@@ -28,6 +28,7 @@ public class MalakoService : ServiceBase
     private void ShowNotifications()
     {
         PlaySound();
+        // EventLog.WriteEntry("Numero retornado: " + MalakoNumber().ToString());
     }
 
     void timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -45,7 +46,7 @@ public class MalakoService : ServiceBase
 
     public MalakoService()
     {
-        Debugger.Break();
+        // Debugger.Break();
 
         ServiceName = "MalakoService";
         CanStop = true;

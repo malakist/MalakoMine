@@ -1,0 +1,7 @@
+C:\projects\malakomine\src\MalakoService\Malako.Service\bin\Release\Malako.Service.exe
+C:\projects\malakomine\src\MalakoService\Malako.Service\bin\Release\Malako.Service.pdb
+C:\projects\malakomine\src\MalakoService\Malako.Service\bin\Release\Malako.TFSProxy.dll
+C:\projects\malakomine\src\MalakoService\Malako.Service\bin\Release\Malako.TFSProxy.pdb
+C:\projects\malakomine\src\MalakoService\Malako.Service\obj\Release\ResolveAssemblyReference.cache
+C:\projects\malakomine\src\MalakoService\Malako.Service\obj\Release\Malako.Service.exe
+C:\projects\malakomine\src\MalakoService\Malako.Service\obj\Release\Malako.Service.pdb
