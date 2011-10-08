@@ -1,0 +1,3 @@
+LIBRARY	"malakosnd"
+EXPORTS
+    PlaySound   @1

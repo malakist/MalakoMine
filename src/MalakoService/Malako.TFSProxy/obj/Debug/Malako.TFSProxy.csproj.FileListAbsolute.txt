@@ -1,0 +1,5 @@
+C:\projects\malakomine\src\MalakoService\Malako.TFSProxy\obj\Debug\ResolveAssemblyReference.cache
+C:\projects\malakomine\src\MalakoService\Malako.TFSProxy\bin\Debug\Malako.TFSProxy.dll
+C:\projects\malakomine\src\MalakoService\Malako.TFSProxy\bin\Debug\Malako.TFSProxy.pdb
+C:\projects\malakomine\src\MalakoService\Malako.TFSProxy\obj\Debug\Malako.TFSProxy.dll
+C:\projects\malakomine\src\MalakoService\Malako.TFSProxy\obj\Debug\Malako.TFSProxy.pdb
