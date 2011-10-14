@@ -5,3 +5,5 @@ C:\projects\malakomine\src\MalakoService\Malako.Service\bin\Debug\Malako.TFSProx
 C:\projects\malakomine\src\MalakoService\Malako.Service\bin\Debug\Malako.TFSProxy.pdb
 C:\projects\malakomine\src\MalakoService\Malako.Service\obj\Debug\Malako.Service.exe
 C:\projects\malakomine\src\MalakoService\Malako.Service\obj\Debug\Malako.Service.pdb
+C:\projects\malakomine\src\MalakoService\Malako.Service\obj\Debug\Malako.Service.Malako.Service.resources
+C:\projects\malakomine\src\MalakoService\Malako.Service\obj\Debug\Malako.Service.csproj.GenerateResource.Cache
