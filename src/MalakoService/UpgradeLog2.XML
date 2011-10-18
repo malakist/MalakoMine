@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="MalakoService">
+</Property><Property Name="Solution File" Value="C:\Projetos\malakomine\src\MalakoService\MalakoService.sln">
+</Property><Property Name="User Options File" Value="C:\Projetos\malakomine\src\MalakoService\MalakoService.suo">
+</Property><Property Name="Date" Value="terça-feira, 18 de outubro de 2011">
+</Property><Property Name="Time" Value="20:12">
+</Property><Property Name="Log Number" Value="2">
+</Property></Properties><Event ErrorLevel="0" Project="" Source="MalakoService.sln" Description="File successfully backed up as C:\Projetos\malakomine\src\MalakoService\Backup1\MalakoService.sln">
+</Event><Event ErrorLevel="0" Project="" Source="MalakoService.suo" Description="File successfully backed up as C:\Projetos\malakomine\src\MalakoService\Backup1\MalakoService.suo">
+</Event><Event ErrorLevel="0" Project="Malako.Service" Source="Malako.Service\Malako.Service.csproj" Description="Project file successfully backed up as C:\Projetos\malakomine\src\MalakoService\Backup1\Malako.Service\Malako.Service.csproj">
+</Event><Event ErrorLevel="0" Project="Malako.Service" Source="Malako.Service\Malako.Service.Designer.cs" Description="File successfully backed up as C:\Projetos\malakomine\src\MalakoService\Backup1\Malako.Service\Malako.Service.Designer.cs">
+</Event><Event ErrorLevel="0" Project="Malako.Service" Source="Malako.Service\MalakoService.cs" Description="File successfully backed up as C:\Projetos\malakomine\src\MalakoService\Backup1\Malako.Service\MalakoService.cs">
+</Event><Event ErrorLevel="0" Project="Malako.Service" Source="Malako.Service\Program.cs" Description="File successfully backed up as C:\Projetos\malakomine\src\MalakoService\Backup1\Malako.Service\Program.cs">
+</Event><Event ErrorLevel="0" Project="Malako.Service" Source="Malako.Service\Properties\AssemblyInfo.cs" Description="File successfully backed up as C:\Projetos\malakomine\src\MalakoService\Backup1\Malako.Service\Properties\AssemblyInfo.cs">
+</Event><Event ErrorLevel="0" Project="Malako.Service" Source="Malako.Service\MalakoInstaller.cs" Description="File successfully backed up as C:\Projetos\malakomine\src\MalakoService\Backup1\Malako.Service\MalakoInstaller.cs">
+</Event><Event ErrorLevel="0" Project="Malako.Service" Source="Malako.Service\Resources\caveira.ico" Description="File successfully backed up as C:\Projetos\malakomine\src\MalakoService\Backup1\Malako.Service\Resources\caveira.ico">
+</Event><Event ErrorLevel="0" Project="Malako.Service" Source="Malako.Service\Malako.Service.resx" Description="File successfully backed up as C:\Projetos\malakomine\src\MalakoService\Backup1\Malako.Service\Malako.Service.resx">
+</Event><Event ErrorLevel="0" Project="Malako.Service" Source="Malako.Service\Malako.Service.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="Malako.Service" Source="Malako.Service\Malako.Service.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="Malako.TFSProxy" Source="Malako.TFSProxy\Malako.TFSProxy.csproj" Description="Project file successfully backed up as C:\Projetos\malakomine\src\MalakoService\Backup1\Malako.TFSProxy\Malako.TFSProxy.csproj">
+</Event><Event ErrorLevel="0" Project="Malako.TFSProxy" Source="Malako.TFSProxy\Proxy.cs" Description="File successfully backed up as C:\Projetos\malakomine\src\MalakoService\Backup1\Malako.TFSProxy\Proxy.cs">
+</Event><Event ErrorLevel="0" Project="Malako.TFSProxy" Source="Malako.TFSProxy\Properties\AssemblyInfo.cs" Description="File successfully backed up as C:\Projetos\malakomine\src\MalakoService\Backup1\Malako.TFSProxy\Properties\AssemblyInfo.cs">
+</Event><Event ErrorLevel="0" Project="Malako.TFSProxy" Source="Malako.TFSProxy\Task.cs" Description="File successfully backed up as C:\Projetos\malakomine\src\MalakoService\Backup1\Malako.TFSProxy\Task.cs">
+</Event><Event ErrorLevel="0" Project="Malako.TFSProxy" Source="Malako.TFSProxy\Malako.TFSProxy.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="Malako.TFSProxy" Source="Malako.TFSProxy\Malako.TFSProxy.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="MalakoService.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="MalakoService.sln" Description="Converted">
+</Event><Event ErrorLevel="0" Project="Malako.Service" Source="Malako.Service\Malako.Service.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event><Event ErrorLevel="0" Project="Malako.TFSProxy" Source="Malako.TFSProxy\Malako.TFSProxy.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event></UpgradeLog>

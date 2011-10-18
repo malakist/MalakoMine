@@ -1,0 +1,4 @@
+C:\Projetos\malakomine\src\MalakoService\MalakoNotifier\bin\Debug\MalakoNotifier.exe
+C:\Projetos\malakomine\src\MalakoService\MalakoNotifier\bin\Debug\MalakoNotifier.pdb
+C:\Projetos\malakomine\src\MalakoService\MalakoNotifier\bin\Debug\Malako.TFSProxy.dll
+C:\Projetos\malakomine\src\MalakoService\MalakoNotifier\bin\Debug\Malako.TFSProxy.pdb

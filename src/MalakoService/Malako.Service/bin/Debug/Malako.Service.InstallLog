@@ -24,3 +24,42 @@ Parâmetros afetados são:
    logtoconsole = 
    assemblypath = C:\projects\malakomine\src\MalakoService\Malako.Service\bin\Debug\Malako.Service.exe
    logfile = C:\projects\malakomine\src\MalakoService\Malako.Service\bin\Debug\Malako.Service.InstallLog
+Installing assembly 'C:\Projetos\malakomine\src\MalakoService\Malako.Service\bin\Debug\Malako.Service.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Projetos\malakomine\src\MalakoService\Malako.Service\bin\Debug\Malako.Service.InstallLog
+   assemblypath = C:\Projetos\malakomine\src\MalakoService\Malako.Service\bin\Debug\Malako.Service.exe
+Installing service MalakoService...
+Creating EventLog source MalakoService in log Application...
+Rolling back assembly 'C:\Projetos\malakomine\src\MalakoService\Malako.Service\bin\Debug\Malako.Service.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Projetos\malakomine\src\MalakoService\Malako.Service\bin\Debug\Malako.Service.InstallLog
+   assemblypath = C:\Projetos\malakomine\src\MalakoService\Malako.Service\bin\Debug\Malako.Service.exe
+Restoring event log to previous state for source MalakoService.
+Installing assembly 'C:\Projetos\malakomine\src\MalakoService\Malako.Service\bin\Debug\Malako.Service.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Projetos\malakomine\src\MalakoService\Malako.Service\bin\Debug\Malako.Service.InstallLog
+   assemblypath = C:\Projetos\malakomine\src\MalakoService\Malako.Service\bin\Debug\Malako.Service.exe
+Installing service MalakoService...
+Creating EventLog source MalakoService in log Application...
+Rolling back assembly 'C:\Projetos\malakomine\src\MalakoService\Malako.Service\bin\Debug\Malako.Service.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Projetos\malakomine\src\MalakoService\Malako.Service\bin\Debug\Malako.Service.InstallLog
+   assemblypath = C:\Projetos\malakomine\src\MalakoService\Malako.Service\bin\Debug\Malako.Service.exe
+Restoring event log to previous state for source MalakoService.
+Installing assembly 'C:\Projetos\malakomine\src\MalakoService\Malako.Service\bin\Debug\Malako.Service.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Projetos\malakomine\src\MalakoService\Malako.Service\bin\Debug\Malako.Service.InstallLog
+   assemblypath = C:\Projetos\malakomine\src\MalakoService\Malako.Service\bin\Debug\Malako.Service.exe
+Installing service MalakoService...
+Service MalakoService has been successfully installed.
+Creating EventLog source MalakoService in log Application...
+Committing assembly 'C:\Projetos\malakomine\src\MalakoService\Malako.Service\bin\Debug\Malako.Service.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Projetos\malakomine\src\MalakoService\Malako.Service\bin\Debug\Malako.Service.InstallLog
+   assemblypath = C:\Projetos\malakomine\src\MalakoService\Malako.Service\bin\Debug\Malako.Service.exe

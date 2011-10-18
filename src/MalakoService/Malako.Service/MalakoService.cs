@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Timers;
 using System.Linq;
+using System.Threading;
 using System.ServiceProcess;
 using System.Runtime.InteropServices;
 using Malako.TFSProxy;
@@ -16,10 +17,10 @@ public class MalakoService : ServiceBase
 
 
 #if __malakosnd
-    [DllImport("malakosnd.dll", EntryPoint = "MalakoSound")]
-    private static extern void PlaySound();
+    [DllImport("kernel32.dll", EntryPoint = "Beep")]
+    private static extern int PlaySound(int freq, int duration);
 #else
-    private static void PlaySound() { }
+    private static void PlaySound(int freq, int duration) { System.Console.Beep(freq, duration); }
 #endif
     
     private void CleanObj(object o) 
@@ -32,20 +33,6 @@ public class MalakoService : ServiceBase
         }
     }
 
-    private void ShowNotifications()
-    {
-        PlaySound();
-        // EventLog.WriteEntry("Numero retornado: " + MalakoNumber().ToString());
-    }
-
-    private void ShowNotifyIcon()
-    {
-        NotifyIcon notIcon = new NotifyIcon();
-        notIcon.Icon = new System.Drawing.Icon(Malako.Service.Malako_Service.caveira, 16, 16);
-        notIcon.ShowBalloonTip(4000, "Title", "Texto", ToolTipIcon.Info);
-        notIcon.Visible = true;
-    }
-
     void timer_Elapsed(object sender, ElapsedEventArgs e)
     {
         var list = from task in proxy.GetTasks()
@@ -53,10 +40,23 @@ public class MalakoService : ServiceBase
                    select task;
         
         if (list.Count<Task>() > 0) {
-            ShowNotifications();
+            VerificarNotifier();
         }
 
         dataUltimaAnalise = e.SignalTime;
+    }
+
+    private void VerificarNotifier()
+    {
+        Process[] proc = Process.GetProcessesByName("mlknotifier");
+        if (proc.Length == 0)
+        {
+            ProcessStartInfo psi = new ProcessStartInfo(@"c:\temp\mlknotifier.exe");
+            psi.CreateNoWindow = true;
+            psi.UseShellExecute = true;
+            Process malakoProc = Process.Start(psi);
+        }
+
     }    
 
     public MalakoService()
@@ -73,7 +73,7 @@ public class MalakoService : ServiceBase
     }
 
     protected override void OnStart(string[] args)
-    {
+    {        
         base.OnStart(args);
 
         CleanObj(proxy);
@@ -86,11 +86,9 @@ public class MalakoService : ServiceBase
 
             timer = new System.Timers.Timer();
             timer.AutoReset = true;
-            timer.Interval = 1000;
+            timer.Interval = 10000;
             timer.Elapsed += new ElapsedEventHandler(timer_Elapsed);
             timer.Start();
-
-            ShowNotifyIcon();
         }
         catch (Exception ex)
         {
