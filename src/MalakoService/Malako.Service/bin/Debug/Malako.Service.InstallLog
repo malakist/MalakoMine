@@ -63,3 +63,11 @@ Affected parameters are:
    logtoconsole = 
    logfile = C:\Projetos\malakomine\src\MalakoService\Malako.Service\bin\Debug\Malako.Service.InstallLog
    assemblypath = C:\Projetos\malakomine\src\MalakoService\Malako.Service\bin\Debug\Malako.Service.exe
+Uninstalling assembly 'C:\Projetos\malakomine\src\MalakoService\Malako.Service\bin\Debug\malako.service.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Projetos\malakomine\src\MalakoService\Malako.Service\bin\Debug\malako.service.InstallLog
+   assemblypath = C:\Projetos\malakomine\src\MalakoService\Malako.Service\bin\Debug\malako.service.exe
+Removing EventLog source MalakoService.
+Service MalakoService is being removed from the system...
+Service MalakoService was successfully removed from the system.

@@ -7,3 +7,13 @@ C:\projects\malakomine\src\MalakoService\Malako.Service\obj\Debug\Malako.Service
 C:\projects\malakomine\src\MalakoService\Malako.Service\obj\Debug\Malako.Service.pdb
 C:\projects\malakomine\src\MalakoService\Malako.Service\obj\Debug\Malako.Service.Malako.Service.resources
 C:\projects\malakomine\src\MalakoService\Malako.Service\obj\Debug\Malako.Service.csproj.GenerateResource.Cache
+C:\Projetos\malakomine\src\MalakoService\Malako.Service\bin\Debug\Malako.Service.exe
+C:\Projetos\malakomine\src\MalakoService\Malako.Service\bin\Debug\Malako.Service.pdb
+C:\Projetos\malakomine\src\MalakoService\Malako.Service\bin\Debug\Malako.TFSProxy.dll
+C:\Projetos\malakomine\src\MalakoService\Malako.Service\bin\Debug\Malako.TFSProxy.pdb
+C:\Projetos\malakomine\src\MalakoService\Malako.Service\obj\Debug\ResolveAssemblyReference.cache
+C:\Projetos\malakomine\src\MalakoService\Malako.Service\obj\Debug\Malako.Service.Malako.Service.resources
+C:\Projetos\malakomine\src\MalakoService\Malako.Service\obj\Debug\GenerateResource-ResGen.read.1.tlog
+C:\Projetos\malakomine\src\MalakoService\Malako.Service\obj\Debug\GenerateResource-ResGen.write.1.tlog
+C:\Projetos\malakomine\src\MalakoService\Malako.Service\obj\Debug\Malako.Service.exe
+C:\Projetos\malakomine\src\MalakoService\Malako.Service\obj\Debug\Malako.Service.pdb

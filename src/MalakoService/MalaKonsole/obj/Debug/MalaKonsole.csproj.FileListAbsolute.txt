@@ -1,5 +1,0 @@
-C:\projects\malakomine\src\MalakoService\MalaKonsole\bin\Debug\MalaKonsole.exe
-C:\projects\malakomine\src\MalakoService\MalaKonsole\bin\Debug\MalaKonsole.pdb
-C:\projects\malakomine\src\MalakoService\MalaKonsole\obj\Debug\ResolveAssemblyReference.cache
-C:\projects\malakomine\src\MalakoService\MalaKonsole\obj\Debug\MalaKonsole.exe
-C:\projects\malakomine\src\MalakoService\MalaKonsole\obj\Debug\MalaKonsole.pdb
