@@ -1,0 +1,40 @@
+﻿@using Malakorp.MalakoMine.Client.Models
+@model Task
+@using (Ajax.BeginForm("Edit", new AjaxOptions { OnSuccess = "OnSuccess" }))
+{    
+    @Html.ValidationSummary()
+    <fieldset id="fs @Model.ID">
+        @Html.HiddenFor(model => model.ID)
+        <div id="details">
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Hours)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Hours)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.State)
+            </div>
+            <div class="editor-field tst">
+                @Html.DropDownListFor(model => model.State, Model.NextStates.ToSelectList())
+            </div>
+            @if (Model.HasBugRelated)
+            {
+                <div id="dvReason">
+                    @Html.Action("GetReasons", new { id = Model.ID })
+                </div>
+            }
+        </div>
+        <div id="comment">
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Comment)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Comment)
+            </div>
+        </div>
+        <div id="ok">
+            <input type="submit" value="OK" />
+        </div>
+    </fieldset> 
+}

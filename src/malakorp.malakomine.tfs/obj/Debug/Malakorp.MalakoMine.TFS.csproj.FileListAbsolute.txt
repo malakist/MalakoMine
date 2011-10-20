@@ -1,0 +1,15 @@
+C:\Users\ricardou\Desktop\Malakorp.MalakoMine.Client\Malakorp.MalakoMine.Client\Malakorp.MalakoMine.TFS\bin\Debug\Malakorp.MalakoMine.TFS.dll
+C:\Users\ricardou\Desktop\Malakorp.MalakoMine.Client\Malakorp.MalakoMine.Client\Malakorp.MalakoMine.TFS\bin\Debug\Malakorp.MalakoMine.TFS.pdb
+C:\Users\ricardou\Desktop\Malakorp.MalakoMine.Client\Malakorp.MalakoMine.Client\Malakorp.MalakoMine.TFS\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\ricardou\Desktop\Malakorp.MalakoMine.Client\Malakorp.MalakoMine.Client\Malakorp.MalakoMine.TFS\obj\Debug\Malakorp.MalakoMine.TFS.dll
+C:\Users\ricardou\Desktop\Malakorp.MalakoMine.Client\Malakorp.MalakoMine.Client\Malakorp.MalakoMine.TFS\obj\Debug\Malakorp.MalakoMine.TFS.pdb
+C:\Documents and Settings\PAULOM\Desktop\Malakorp.MalakoMine.Client\Malakorp.MalakoMine.TFS\bin\Debug\Malakorp.MalakoMine.TFS.dll
+C:\Documents and Settings\PAULOM\Desktop\Malakorp.MalakoMine.Client\Malakorp.MalakoMine.TFS\bin\Debug\Malakorp.MalakoMine.TFS.pdb
+C:\Documents and Settings\PAULOM\Desktop\Malakorp.MalakoMine.Client\Malakorp.MalakoMine.TFS\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\PAULOM\Desktop\Malakorp.MalakoMine.Client\Malakorp.MalakoMine.TFS\obj\Debug\Malakorp.MalakoMine.TFS.dll
+C:\Documents and Settings\PAULOM\Desktop\Malakorp.MalakoMine.Client\Malakorp.MalakoMine.TFS\obj\Debug\Malakorp.MalakoMine.TFS.pdb
+C:\Users\ricardou\Desktop\New folder\Malakorp.MalakoMine.TFS\bin\Debug\Malakorp.MalakoMine.TFS.dll
+C:\Users\ricardou\Desktop\New folder\Malakorp.MalakoMine.TFS\bin\Debug\Malakorp.MalakoMine.TFS.pdb
+C:\Users\ricardou\Desktop\New folder\Malakorp.MalakoMine.TFS\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\ricardou\Desktop\New folder\Malakorp.MalakoMine.TFS\obj\Debug\Malakorp.MalakoMine.TFS.dll
+C:\Users\ricardou\Desktop\New folder\Malakorp.MalakoMine.TFS\obj\Debug\Malakorp.MalakoMine.TFS.pdb
