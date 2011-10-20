@@ -1,1 +1,5 @@
-.ncb
+*.ncb
+*.exe
+*.dll
+*.pdb
+*/Debug/*
