@@ -7,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Threading;
-using Malako.TFSProxy;
+using Malakorp.MalakoMine.TFSProxy;
 
-namespace MalakoNotifier
+namespace Malakorp.MalakoMine.Notifier
 {
     public partial class Form1 : Form
     {
-        private Malako.TFSProxy.Proxy proxy = null;
+        private Proxy proxy = null;
         private System.Windows.Forms.Timer timer = null;
         private DateTime dataUltimaAnalise = DateTime.MinValue; //TODO: isto deveria poder ser gravado e recuperado de um arquivo
         NotifyIcon notIcon = null;
