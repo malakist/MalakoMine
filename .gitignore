@@ -2,4 +2,6 @@
 *.exe
 *.dll
 *.pdb
-*/Debug/*
+*.suo
+*.user
+
