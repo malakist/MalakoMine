@@ -11,7 +11,7 @@ using System.Text.RegularExpressions;
 
 namespace Malakorp.MalakoMine.TFS
 {
-    public class TFSMalako
+    public class MalakoQueryProvider
     {
         TeamFoundationServer tfs;
         WorkItemStore wiStore;
