@@ -37,7 +37,7 @@ namespace Malakorp.MalakoMine.Client
 
         protected void Session_Start()
         {
-            var malako = new MalakoQueryProvider(
+            var malako = new TFS.MalakoQueryProvider(
                 ConfigurationManager.AppSettings["TFSServer"],
                 ConfigurationManager.AppSettings["TFSProject"],
                 System.Net.CredentialCache.DefaultNetworkCredentials //CredentialCache.DefaultCredentials.GetCredential(new Uri("http://tempuri.org/"), "Basic")
