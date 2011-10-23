@@ -7,12 +7,8 @@ using System.Web.Routing;
 using System.Net;
 using System.Configuration;
 
-
 namespace Malakorp.MalakoMine.Client
 {
-    // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
-    // visit http://go.microsoft.com/?LinkId=9394801
-
     public class MvcApplication : System.Web.HttpApplication
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
@@ -25,9 +21,9 @@ namespace Malakorp.MalakoMine.Client
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                "Default", // Route name
-                "{controller}/{action}/{id}", // URL with parameters
-                new { controller = "Malako", action = "Index", id = UrlParameter.Optional } // Parameter defaults
+                "Default",
+                "{controller}/{action}/{id}",
+                new { controller = "Malako", action = "Index", id = UrlParameter.Optional }
             );
         }
 
@@ -41,16 +37,12 @@ namespace Malakorp.MalakoMine.Client
 
         protected void Session_Start()
         {
-
-            Uri uri = new Uri("http://tempuri.org/");
-            ICredentials credentials = CredentialCache.DefaultCredentials;
-            NetworkCredential credential = credentials.GetCredential(uri, "Basic");
-
-            TFS.TFSMalako malako = new TFS.TFSMalako();
-
-            malako.ServerName = ConfigurationManager.AppSettings["TFSServer"];
-            malako.ProjectName = ConfigurationManager.AppSettings["TFSProject"];
-            malako.Credentials = System.Net.CredentialCache.DefaultNetworkCredentials; 
+            var malako = new MalakoQueryProvider(
+                ConfigurationManager.AppSettings["TFSServer"],
+                ConfigurationManager.AppSettings["TFSProject"],
+                System.Net.CredentialCache.DefaultNetworkCredentials //CredentialCache.DefaultCredentials.GetCredential(new Uri("http://tempuri.org/"), "Basic")
+            );
+            
             malako.Connect();
             Session.Add("TFSMalako", malako);
         }
