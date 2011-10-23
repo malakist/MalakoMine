@@ -17,6 +17,12 @@ namespace Malakorp.MalakoMine.TFS
         WorkItemStore wiStore;
         Project tfsProject;
 
+        public MalakoQueryProvider(string serverName, string projectName, NetworkCredential credentials) {
+            ServerName = serverName;
+            ProjectName = projectName;
+            Credentials = credentials;
+        }
+
         public string ServerName { get; set; }
         public string ProjectName { get; set; }
         public NetworkCredential Credentials { get; set; }
