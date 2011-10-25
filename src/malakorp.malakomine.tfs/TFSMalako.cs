@@ -7,6 +7,7 @@ using System.Linq;
 using Microsoft.TeamFoundation.Client;
 using Microsoft.TeamFoundation.Server;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
+using System.Text;
 
 namespace Malakorp.MalakoMine.TFS
 {
@@ -141,6 +142,29 @@ namespace Malakorp.MalakoMine.TFS
 			if (linkedBug != null)
 				linkedBug.Save();
 		}
+
+        /// <summary>
+        /// Recupera as tarefas atribuidas ao usuário logado
+        /// </summary>
+        /// <returns></returns>
+        private WorkItemCollection PrivateGetTasks(System.DateTime? sinceDateTime)
+        {
+            StringBuilder query = new StringBuilder();
+            query.Append(" SELECT [System.Id], [System.WorkItemType]," +
+               " [System.State], [System.AssignedTo], [System.Title] " +
+               " FROM WorkItems " +
+               " WHERE [System.TeamProject] = '" + project.Name +
+               "' and [System.AssignedTo] = @Me " +
+               " and [System.WorkItemType] not in('Demanda', 'Requirement') " +
+               " and [System.State] != 'Closed' ");
+            
+            if (sinceDateTime != null)
+                query.Append(" and [System.CreatedDate] >= '" + sinceDateTime.Value.ToString("MM/dd/yyyy") + "'");
+
+            query.Append(" ORDER BY [System.WorkItemType], [System.Id]");
+            
+            return store.Query(query.ToString());
+        }
 		#endregion
 
 		#region Public Methods
@@ -171,16 +195,18 @@ namespace Malakorp.MalakoMine.TFS
 		/// <returns></returns>
 		public WorkItemCollection GetTasks()
 		{
-			return store.Query(
-			   " SELECT [System.Id], [System.WorkItemType]," +
-			   " [System.State], [System.AssignedTo], [System.Title] " +
-			   " FROM WorkItems " +
-			   " WHERE [System.TeamProject] = '" + project.Name +
-			   "' and [System.AssignedTo] = @Me " +
-			   " and [System.WorkItemType] not in('Demanda', 'Requirement') " +
-			   " and [System.State] != 'Closed' " +
-			   " ORDER BY [System.WorkItemType], [System.Id]");
+            return PrivateGetTasks(null);
 		}
+
+        public WorkItemCollection GetTasksSince(DateTime sinceDateTime)
+        {
+            return PrivateGetTasks(sinceDateTime);
+        }
+
+        public bool ThereAreNewTasksSince(DateTime sinceDateTime)
+        {
+            return (GetTasksSince(sinceDateTime).Count > 0);
+        }
 
 		/// <summary>
 		/// Verifica se um bug já possui task
@@ -314,7 +340,7 @@ namespace Malakorp.MalakoMine.TFS
 		public void UpdateHours(int id, float qtdeHoras, string state, string comments, string bugReason)
 		{
 			float remaining;
-			float completed;
+			float completed = 0F;
 
 			const string remainingField = "Remaining Work";
 			const string completedField = "Completed Work";
