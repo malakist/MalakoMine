@@ -1,0 +1,9 @@
+C:\Malakorp\MalakoMine\build\mlknotifier.exe
+C:\Malakorp\MalakoMine\build\mlknotifier.pdb
+C:\Malakorp\MalakoMine\src\malakorp.malakomine.notifier\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Malakorp\MalakoMine\src\malakorp.malakomine.notifier\obj\x86\Debug\Malakorp.MalakoMine.Notifier.Form1.resources
+C:\Malakorp\MalakoMine\src\malakorp.malakomine.notifier\obj\x86\Debug\Malakorp.MalakoMine.Notifier.Properties.Resources.resources
+C:\Malakorp\MalakoMine\src\malakorp.malakomine.notifier\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Malakorp\MalakoMine\src\malakorp.malakomine.notifier\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Malakorp\MalakoMine\src\malakorp.malakomine.notifier\obj\x86\Debug\mlknotifier.exe
+C:\Malakorp\MalakoMine\src\malakorp.malakomine.notifier\obj\x86\Debug\mlknotifier.pdb

@@ -8,34 +8,37 @@ using System.Net;
 using System.Diagnostics;
 using System.Security.Principal;
 using System.Text.RegularExpressions;
+using System.Text;
+using System.Linq;
 
 namespace Malakorp.MalakoMine.TFS
 {
-    public class MalakoQueryProvider
+    public class MalaKueryProvider
     {
-        TeamFoundationServer tfs;
-        WorkItemStore wiStore;
-        Project tfsProject;
+        //deprecated
+        TeamFoundationServer server;
+        WorkItemStore store;
+        Project project;
 
-        public MalakoQueryProvider(string serverName, string projectName, NetworkCredential credentials) {
+        public MalaKueryProvider(string serverName, string projectName, NetworkCredential credentials)
+        {
             ServerName = serverName;
             ProjectName = projectName;
             Credentials = credentials;
         }
 
-        public string ServerName { get; set; }
-        public string ProjectName { get; set; }
-        public NetworkCredential Credentials { get; set; }
+        public string ServerName { get; private set; }
+        public string ProjectName { get; private set; }
+        public NetworkCredential Credentials { get; private set; }
 
-        #region Private Methods
         /// <summary>
         /// Recupera a quantidade de workitens filhos de um pai
         /// </summary>
         /// <param name="id">id do pai</param>
         /// <returns>Quantidade de filhos</returns>
-        private int CountChilds(int id)
+        private int ChildrenCount(int id)
         {
-            return new Query(wiStore,
+            return new Query(store,
                    " SELECT [System.Id] " +
                    " FROM WorkItemLinks " +
                    " WHERE ([Source].[System.Id] = " + id.ToString() + ") " +
@@ -50,14 +53,14 @@ namespace Malakorp.MalakoMine.TFS
         /// <returns>WorkItem Pai</returns>
         private WorkItem GetParent(int id)
         {
-            WorkItemLinkInfo[] a = new Query(wiStore,
+            var q = new Query(store,
                    " SELECT [Target].[System.Id] " +
                    " FROM WorkItemLinks " +
                    " WHERE ([Source].[System.Id] = " + id.ToString() + ") " +
                    " and ([System.Links.LinkType] = 'Parent') " +
                    " mode(MustContain)").RunLinkQuery();
 
-            return this.GetWIById(a[1].TargetId);
+            return GetWorkItem(q[1].TargetId);
         }
 
         /// <summary>
@@ -65,23 +68,25 @@ namespace Malakorp.MalakoMine.TFS
         /// </summary>
         /// <param name="id">ID da tarefa</param>
         /// <returns>Coleção de Bugs atrelados a uma tarefa</returns>
-        private WorkItem GetBugByTaskId(int id)
+        public WorkItem GetBugByTaskId(int id)
         {
-            WorkItemLinkInfo[] a = new Query(wiStore,
+            var q = new Query(store,
                    " SELECT [Target].[System.Id] " +
                    " FROM WorkItemLinks " +
                    " WHERE ([Source].[System.Id] = " + id.ToString() + ") " +
-                   " and ([System.Links.LinkType] = 'Tests') " +
+                   " and ([System.Links.LinkType] = 'Parent') " +
                    " and ([Target].[System.WorkItemType] = 'Bug') " +
                    " mode(MustContain)").RunLinkQuery();
 
-            return this.GetWIById(a[1].TargetId);
-            //WorkItemType wiType = tfsProject.WorkItemTypes["Bug"];
+            return GetWorkItem(q[1].TargetId);
+
+            #region //
+            //WorkItemType wiType = project.WorkItemTypes["Bug"];
             //WorkItem linkedBug = null;
 
             //for (int i = 0; i < wi.WorkItemLinks.Count; i++)
             //{
-            //    linkedBug = wiStore.GetWorkItem(wi.WorkItemLinks[i].TargetId);
+            //    linkedBug = store.GetWorkItem(wi.WorkItemLinks[i].TargetId);
 
             //    if (wi.WorkItemLinks[i].LinkTypeEnd.Name.Equals("Tests")
             //        && linkedBug.Type == wiType
@@ -92,6 +97,7 @@ namespace Malakorp.MalakoMine.TFS
             //}
 
             //return null;
+            #endregion
         }
 
         /// <summary>
@@ -102,18 +108,13 @@ namespace Malakorp.MalakoMine.TFS
         /// <returns>Titulo formatado</returns>
         private string GetTitlePrefix(WorkItem parent, string title)
         {
-            string formatedTitle = parent.Title;
-            string regexStr = @"([\d\.]+\s)";
+            const string regex = @"([\d\.]+\s)";
 
-            title = Regex.Replace(title, regexStr, "");
-            Match a = Regex.Match(formatedTitle, regexStr);
+            var match = Regex.Match(parent.Title, regex);
 
-            if (a.Success)
-            {
-                formatedTitle = string.Format("{0}.{1} {2}", a.Value.Replace(" ",""), this.CountChilds(parent.Id), title);
-            }
-
-            return formatedTitle;
+            return match.Success ?
+                string.Format("{0}.{1} {2}", match.Value.Replace(" ", ""), ChildrenCount(parent.Id), Regex.Replace(title, regex, "")) :
+                parent.Title;
         }
 
         /// <summary>
@@ -123,14 +124,13 @@ namespace Malakorp.MalakoMine.TFS
         /// <param name="taskState">Novo status</param>
         /// <param name="comments">Comentários</param>
         /// <param name="bugReason">Razão de fechamento do BUG</param>
-        private void ChangeStatusTask(WorkItem wi, string taskState, string comments, string bugReason)
+        private void ChangeTaskStatus(WorkItem wi, string taskState, string comments, string taskReason, string bugReason)
         {
-            WorkItem linkedBug = null;
-
-            if (taskState == "Closed"
-                && wi.State != "Closed")
+            var linkedBug = default(WorkItem);
+            
+            if (taskState == "Closed" && wi.State != "Closed")
             {
-                linkedBug = this.GetBugByTaskId(wi.Id);
+                linkedBug = GetBugByTaskId(wi.Id);
 
                 if (linkedBug != null)
                 {
@@ -142,25 +142,49 @@ namespace Malakorp.MalakoMine.TFS
             }
 
             wi.State = taskState;
+            if (taskReason != String.Empty)
+                wi.Reason = taskReason;
             wi.History = comments;
 
             wi.Save();
 
             if (linkedBug != null)
                 linkedBug.Save();
-        } 
-        #endregion
+        }
+
+        /// <summary>
+        /// Recupera as tarefas atribuidas ao usuário logado
+        /// </summary>
+        /// <returns></returns>
+        private WorkItemCollection PrivateGetTasks(System.DateTime? sinceDateTime)
+        {
+            var query = new StringBuilder();
+            query.Append(" SELECT [System.Id], [System.WorkItemType]," +
+               " [System.State], [System.AssignedTo], [System.Title] " +
+               " FROM WorkItems " +
+               " WHERE [System.TeamProject] = '" + project.Name +
+               "' and [System.AssignedTo] = @Me " +
+               " and [System.WorkItemType] not in('Demanda', 'Requirement') " +
+               " and [System.State] != 'Closed' ");
+
+            if (sinceDateTime != null)
+                query.Append(" and [System.CreatedDate] >= '" + sinceDateTime.Value.ToString("MM/dd/yyyy") + "'");
+
+            query.Append(" ORDER BY [System.WorkItemType], [System.Id]");
+
+            return store.Query(query.ToString());
+        }
 
         public bool Connect()
         {
             try
             {
-                Trace.Write(WindowsIdentity.GetCurrent().Name);
+                //
+                //Trace.Write(WindowsIdentity.GetCurrent().Name);
 
-                tfs = new TeamFoundationServer(ServerName, Credentials);
-
-                wiStore = (WorkItemStore)tfs.GetService(typeof(WorkItemStore));
-                tfsProject = wiStore.Projects[this.ProjectName];
+                server = new TeamFoundationServer(ServerName, Credentials);
+                store = server.GetService(typeof(WorkItemStore)) as WorkItemStore;
+                project = store.Projects[ProjectName];
 
                 //TODO: Validar conexão
                 return true;
@@ -171,22 +195,23 @@ namespace Malakorp.MalakoMine.TFS
             }
         }
 
-        #region Public Methods
         /// <summary>
         /// Recupera as tarefas atribuidas ao usuário logado
         /// </summary>
         /// <returns></returns>
         public WorkItemCollection GetTasks()
         {
-            return wiStore.Query(
-               " SELECT [System.Id], [System.WorkItemType]," +
-               " [System.State], [System.AssignedTo], [System.Title] " +
-               " FROM WorkItems " +
-               " WHERE [System.TeamProject] = '" + tfsProject.Name +
-               "' and [System.AssignedTo] = @Me " +
-               " and [System.WorkItemType] not in('Demanda', 'Requirement') " +
-               " and [System.State] != 'Closed' " +
-               " ORDER BY [System.WorkItemType], [System.Id]");
+            return PrivateGetTasks(null);
+        }
+
+        public WorkItemCollection GetTasksSince(DateTime sinceDateTime)
+        {
+            return PrivateGetTasks(sinceDateTime);
+        }
+
+        public bool ThereAreNewTasksSince(DateTime sinceDateTime)
+        {
+            return (GetTasksSince(sinceDateTime).Count > 0);
         }
 
         /// <summary>
@@ -196,11 +221,11 @@ namespace Malakorp.MalakoMine.TFS
         /// <returns></returns>
         public bool HasTask(int id)
         {
-            return new Query(wiStore,
+            return new Query(store,
                    " SELECT [System.Id] " +
                    " FROM WorkItemLinks " +
                    " WHERE ([Source].[System.Id] = " + id.ToString() + ") " +
-                   " and ([System.Links.LinkType] = 'Tested By') " +
+                   " and ([System.Links.LinkType] = 'Child') " +
                    " and ([Target].[System.State] != 'Closed') " +
                    " mode(MustContain)").RunCountQuery() > 0;
         }
@@ -210,31 +235,23 @@ namespace Malakorp.MalakoMine.TFS
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public WorkItem GetWIById(int id)
+        public WorkItem GetWorkItem(int id)
         {
-            return wiStore.GetWorkItem(id);
+            return store.GetWorkItem(id);
         }
 
         /// <summary>
         /// Recupera os status disponiveis de um workitem
         /// </summary>
         /// <param name="currentState"></param>
-        /// <param name="workItemType"></param>
+        /// <param name="type">O tipo do Work Item</param>
         /// <returns></returns>
-        public IList<string> GetAvailableStatesForWI(string currentState, string workItemType)
+        public IEnumerable<string> GetNextStates(string currentState, string type)
         {
-            FieldFilterList filterList = new FieldFilterList();
-            FieldFilter filter = new FieldFilter(tfsProject.WorkItemTypes[workItemType].FieldDefinitions[CoreField.State], currentState);
-            filterList.Add(filter);
-            AllowedValuesCollection allowedValues = tfsProject.WorkItemTypes[workItemType].FieldDefinitions[CoreField.State].FilteredAllowedValues(filterList);
-            IList<string> values = new List<string>(allowedValues.Count);
-
-            foreach (string value in allowedValues)
-            {
-                values.Add(value);
-            }
-
-            return values;
+            var filters = new FieldFilterList();
+            filters.Add(new FieldFilter(project.WorkItemTypes[type].FieldDefinitions[CoreField.State], currentState));
+            
+            return project.WorkItemTypes[type].FieldDefinitions[CoreField.State].FilteredAllowedValues(filters).Cast<string>();
         }
 
         /// <summary>
@@ -242,59 +259,67 @@ namespace Malakorp.MalakoMine.TFS
         /// </summary>
         /// <param name="idBug"></param>
         /// <returns></returns>
-        public IList<string> GetReasons(int id, string newState)
+        public IEnumerable<string> GetReasons(int id, string newState)
         {
-            WorkItem wi = this.GetWIById(id);
-            IList<string> values = new List<string>();
-            // to find possible next states, the Work Item type definition (XML based format) is used.
-            // get Work Item type definition
-            XmlDocument witd = wi.Type.Export(true);
-            // retrieve the transitions node
-            XmlNode transitionsNode = witd.SelectSingleNode("descendant::TRANSITIONS");
-            // for each transition definition (== possible next allowed state)
-            foreach (XmlNode transitionNode in transitionsNode.SelectNodes("TRANSITION"))
-            {
-                // if the transition contains a next allowed state
-                if (transitionNode.Attributes.GetNamedItem("from").Value == wi.State
-                    && transitionNode.Attributes.GetNamedItem("to").Value.ToUpper() == newState.ToUpper())
-                {
-                    // retrieve the reasons node
-                    XmlNode reasonsNode = transitionNode.SelectSingleNode("REASONS");
-                    // for each state change reason 
-                    foreach (XmlNode reason in reasonsNode.ChildNodes)
-                    {
-                        values.Add(reason.Attributes[0].Value);
-                    }
-                }
-            }
+            var wi = GetWorkItem(id);
 
-            return values;
+            var typedef = wi.Type.Export(true) as XmlDocument;
+
+            #region //
+            //var values = new List<string>();
+            // for each transition definition (== possible next allowed state)
+            //foreach (XmlNode node in trans.SelectNodes("TRANSITION"))
+            //{
+            //    // if the transition contains match next allowed state
+            //    if (node.Attributes.GetNamedItem("from").Value == wi.State
+            //        && node.Attributes.GetNamedItem("to").Value.ToUpper() == newState.ToUpper())
+            //    {
+            //        // retrieve the reasons node
+            //        var reasons = node.SelectSingleNode("REASONS");
+            //        // for each state change reason 
+            //        foreach (XmlNode reason in reasons.ChildNodes)
+            //        {
+            //            values.Add(reason.Attributes[0].Value);
+            //        }
+            //    }
+            //}
+            //return values;
+            #endregion
+
+            return from node in typedef.SelectSingleNode("descendant::TRANSITIONS").SelectNodes("TRANSITION").OfType<XmlNode>()
+                   let attrs = node.Attributes
+                   let @from = attrs.GetNamedItem("from").Value
+                   let to = attrs.GetNamedItem("to").Value
+                   where @from == wi.State && to.ToUpper() == newState.ToUpper()
+                   from reason in node.SelectSingleNode("REASONS").ChildNodes.OfType<XmlNode>()
+                   select reason.Attributes[0].Value;
         }
 
         /// <summary>
-        /// Recupera a lista de usuarios do sistema
+        /// Recupera match lista de usuarios do sistema
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<string> GetListUsers()
+        public IEnumerable<string> GetUsers()
         {
-            List<string> ret = new List<string>();
-
-            //Guid collectionGuid = m_collectionGuid;
-            TfsTeamProjectCollection tpc = tfs.TfsTeamProjectCollection;
+            const string boleto = "itgroup\\Grupo Projeto IBBA - Boletos";
 
             // Get the group security service.
-            var gss = tpc.GetService<IGroupSecurityService2>();
+            var gss = server.TfsTeamProjectCollection.GetService<IGroupSecurityService2>();
 
             //Retrieve each user's SID.
-            Identity sids = gss.ReadIdentity(SearchFactor.AccountName, "itgroup\\Grupo Projeto IBBA - Boletos", QueryMembership.Expanded);
+            var sids = gss.ReadIdentity(SearchFactor.AccountName, boleto, QueryMembership.Expanded);
 
+            #region //
+            //List<string> ret = new List<string>();
             // Resolve to named identities.
-            foreach (Identity item in gss.ReadIdentities(SearchFactor.Sid, sids.Members, QueryMembership.None))
-            {
-                ret.Add(item.DisplayName);
-            }
+            //foreach (var item in gss.ReadIdentities(SearchFactor.Sid, sids.Members, QueryMembership.None))
+            //{
+            //    ret.Add(item.DisplayName);
+            //}
+            //return ret;
+            #endregion
 
-            return ret;
+            return gss.ReadIdentities(SearchFactor.Sid, sids.Members, QueryMembership.None).Select(val => val.DisplayName);
         }
 
         /// <summary>
@@ -305,31 +330,40 @@ namespace Malakorp.MalakoMine.TFS
         /// <param name="state"></param>
         /// <param name="comments"></param>
         /// <param name="bugReason"></param>
-        public void UpdateHours(int id, float qtdeHoras, string state, string comments, string bugReason)
+        public void UpdateHours(int id, float qtdeHoras, string state, string comments, string taskReason, string bugReason)
         {
-            float remainingWork;
-            float completedWork;
+            float remaining;
+            float completed = 0F;
 
-            WorkItem wi = this.GetWIById(id);
+            const string remainingField = "Remaining Work";
+            const string completedField = "Completed Work";
 
-            float.TryParse(wi.Fields["Remaining Work"].Value.ToString(), out remainingWork);
-            if (wi.Fields["Completed Work"] != null)
-                float.TryParse("0", out completedWork);
-            else
-                float.TryParse("0" + wi.Fields["Completed Work"].Value.ToString(), out completedWork);
+            var wi = GetWorkItem(id);
 
-            remainingWork -= qtdeHoras;
-            completedWork += qtdeHoras;
-
-            if (remainingWork < 0)
+            if (float.TryParse(wi.Fields[remainingField].Value.ToString(), out remaining))
             {
-                throw new Exception("Remaining Work não pode ser negativo!");
+                if (wi.Fields[completedField] != null)
+                    //TODO: WTF? Me parece estarem invertidas as condições.
+                    //float.TryParse("0", out completed);
+                    completed = 0;
+                else
+                    float.TryParse("0" + wi.Fields[completedField].Value.ToString(), out completed);
             }
 
-            wi.Fields["Remaining Work"].Value = remainingWork;
-            wi.Fields["Completed Work"].Value = completedWork;
+            remaining -= qtdeHoras;
+            completed += qtdeHoras;
 
-            this.ChangeStatusTask(wi, state, comments, bugReason);
+            //TODO: Tentar mover esta validação para atributos.
+            if (remaining < 0)
+                throw new Exception("Remaining Work não pode ser negativo!");
+
+            if (state == "Closed" && remaining > 0)
+                throw new Exception("Ora pois");
+
+            wi.Fields[remainingField].Value = remaining;
+            wi.Fields[completedField].Value = completed;
+
+            ChangeTaskStatus(wi, state, comments, taskReason, bugReason);
         }
 
         /// <summary>
@@ -341,49 +375,69 @@ namespace Malakorp.MalakoMine.TFS
         /// <returns></returns>
         public bool CreateBugTask(int idBug, string assignedTo, string title)
         {
+            // TODO: Onde está se esperando a exceção? No save?
             try
             {
-                WorkItem basedOn = this.GetWIById(idBug);
+                var basedOn = GetWorkItem(idBug);
 
-                WorkItem pbiWI = new WorkItem(tfsProject.WorkItemTypes["Task"]);
-                WorkItem parent = this.GetParent(idBug);
+                var task = new WorkItem(project.WorkItemTypes["Task"]);
+                //var parent = GetParent(idBug);
 
-                pbiWI.Description = string.Format("Verificar o Bug {0}\n\n{1}", basedOn.Title, basedOn.Description);
-                pbiWI.Fields["Assigned To"].Value = assignedTo;
+                task.Description = string.Format("Verificar o Bug {0}\n\n{1}", basedOn.Title, basedOn.Description);
+                task.Fields["Assigned To"].Value = assignedTo;
 
                 basedOn.Fields["Assigned To"].Value = assignedTo;
                 basedOn.State = "Active";
-                pbiWI.Title = title;
+                task.Title = title;
 
-                pbiWI.Links.Add(new RelatedLink(wiStore.WorkItemLinkTypes.LinkTypeEnds["Tests"], basedOn.Id));
+                task.Links.Add(new RelatedLink(store.WorkItemLinkTypes.LinkTypeEnds["Parent"], basedOn.Id));
+                task.Title = GetTitlePrefix(basedOn, title);
 
-                if (parent != null)
+                #region //
+                //task.Links.Add(new RelatedLink(store.WorkItemLinkTypes.LinkTypeEnds["Tests"], basedOn.Id));
+
+                //TODO: Existe a possibilidade de um bug não ter tarefa pai?
+                /*if (parent != null)
                 {
-                    pbiWI.Links.Add(new RelatedLink(wiStore.WorkItemLinkTypes.LinkTypeEnds["Parent"], parent.Id));
-                    pbiWI.Title = this.GetTitlePrefix(parent, title);
-                }
+                    task.Links.Add(new RelatedLink(store.WorkItemLinkTypes.LinkTypeEnds["Parent"], parent.Id));
+                    task.Title = GetTitlePrefix(parent, title);
+                }*/
 
                 //for (int i = 0; i < basedOn.WorkItemLinks.Count; i++)
                 //{
                 //    if (basedOn.WorkItemLinks[i].LinkTypeEnd.Name.Equals("Parent"))
                 //    {
                 //        parentId = basedOn.WorkItemLinks[i].TargetId;
-                //        pbiWI.Links.Add(new RelatedLink(wiStore.WorkItemLinkTypes.LinkTypeEnds["Parent"], basedOn.WorkItemLinks[i].TargetId));
+                //        task.Links.Add(new RelatedLink(store.WorkItemLinkTypes.LinkTypeEnds["Parent"], basedOn.WorkItemLinks[i].TargetId));
                 //        break;
                 //    }
                 //}
+                #endregion
 
                 basedOn.Save();
-                pbiWI.Save();
+                task.Save();
 
                 return true;
             }
-            catch (Exception)
+            catch
             {
                 return false;
             }
+        }
 
-        } 
-        #endregion
+        public IEnumerable<IGrouping<string, string>> GetReasons(int id)
+        {
+            var wi = GetWorkItem(id);
+
+            var typedef = wi.Type.Export(true) as XmlDocument;
+            
+            return from node in typedef.SelectSingleNode("descendant::TRANSITIONS").SelectNodes("TRANSITION").OfType<XmlNode>()
+                   let attrs = node.Attributes
+                   let @from = attrs.GetNamedItem("from").Value
+                   let to = attrs.GetNamedItem("to").Value
+                   where @from == wi.State
+                   from reason in node.SelectSingleNode("REASONS").ChildNodes.OfType<XmlNode>()
+                   group reason.Attributes[0].Value by to;
+        }
     }
 }

@@ -8,39 +8,31 @@ namespace Malakorp.MalakoMine.Client.Models
 {
     public class TFSTaskRepository : ITaskRepository
     {
-        private TFSMalako Malako
+        private MalaKueryProvider Malako
         {
-            get
-            {
-                return (TFSMalako)HttpContext.Current.Session["TFSMalako"];
-            }
+            get { return (MalaKueryProvider)HttpContext.Current.Session["TFSMalako"]; }
         }
 
         public IEnumerable<Task> GetTasks()
         {
-            return
-                from wi in Malako.GetTasks().OfType<WorkItem>() where !Malako.HasTask(wi.Id)
-                select new Task
-                {
-                    Title = wi.Title,
-                    State = wi.State,
-                    ID = wi.Id,
-                    AssignedTo = wi.Fields["Assigned To"].Value.ToString(),
-                    NextStates = Malako.GetAvailableStatesForWI(wi.State, wi.Type.Name),
-                    WorkItemType = wi.Type.Name,
-                    AssignedToList = wi.Fields["Assigned To"].AllowedValues,
-
-                    HasBugRelated =
-                        (from link in wi.Links.OfType<RelatedLink>()
-                         where link.LinkTypeEnd.Name.Contains("Tests")
-                         select link)
-                        .FirstOrDefault() != null
-                };
+            return from item in Malako.GetTasks().OfType<WorkItem>()
+                   where !Malako.HasTask(item.Id)
+                   select new Task
+                   {
+                       Title = item.Title,
+                       State = item.State,
+                       ID = item.Id,
+                       AssignedTo = item.Fields["Assigned To"].Value.ToString(),
+                       NextStates = Malako.GetNextStates(item.State, item.Type.Name),
+                       WorkItemType = item.Type.Name,
+                       HasBugRelated = item.RelatedLinks("Parent").SingleOrDefault() != null,
+                       RemainingWork = item.Type.Name == "Task" ? item.Fields["Remaining Work"].Value as float? : default(float?)
+                   };
         }
 
-        public void UpdateTask(Task task, string reason)
+        public void UpdateTask(Task task, string taskReason, string bugReason)
         {
-            Malako.UpdateHours(task.ID, task.Hours, task.State, task.Comment, reason);
+            Malako.UpdateHours(task.ID, task.Hours, task.State, task.Comment, taskReason, bugReason);
         }
 
         public bool CreateBugTask(Task task)
@@ -48,24 +40,40 @@ namespace Malakorp.MalakoMine.Client.Models
             return Malako.CreateBugTask(task.ID, task.AssignedTo, task.Title);
         }
 
-        public System.Collections.Generic.IEnumerable<string> GetUsers()
+        public IEnumerable<string> GetUsers()
         {
-            return Malako.GetListUsers();
+            return Malako.GetUsers();
         }
 
-        public IEnumerable<string> GetReasons(int id)
+        public IEnumerable<string> GetReasons(int id, string state)
         {
-            WorkItem wi = this.Malako.GetWIById(id);
+            return Malako.GetReasons(id, state);
 
-            foreach (Link item in wi.Links)
-            {
-                if (((RelatedLink)item).LinkTypeEnd.Name == "Tests")
-                {
-                    return Malako.GetBugReasons(((RelatedLink)item).RelatedWorkItemId);
-                }
-            }
+            //var wi = Malako.GetWorkItem(id);
 
-            return null;
+            //foreach (Link item in wi.Links)
+            //{
+            //    if ((item as RelatedLink).LinkTypeEnd.Name == "Tests")
+            //    {
+            //        return Malako.GetReasons((item as RelatedLink).RelatedWorkItemId, state);
+            //    }
+            //}
+
+            //return null;
+        }
+
+
+        public IEnumerable<IGrouping<string, string>> GetReasons(int id)
+        {
+            return Malako.GetReasons(id);
+        }
+    }
+
+    public static class TFSExtensions
+    {
+        public static IEnumerable<RelatedLink> RelatedLinks(this WorkItem item, string linkEndName)
+        {
+            return item.Links.OfType<RelatedLink>().Where(link => link.LinkTypeEnd.Name == linkEndName);
         }
     }
 }

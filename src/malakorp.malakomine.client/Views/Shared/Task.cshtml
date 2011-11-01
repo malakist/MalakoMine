@@ -1,30 +1,50 @@
 ﻿@using Malakorp.MalakoMine.Client.Models
 @model Task
-@using (Ajax.BeginForm("Edit", new AjaxOptions { OnSuccess = "OnSuccess" }))
-{    
+
+@using (Html.BeginForm("Edit", "Malako"))
+{
     @Html.ValidationSummary()
-    <fieldset id="fs @Model.ID">
+
+    <fieldset title="Tarefa">        
         @Html.HiddenFor(model => model.ID)
-        <div id="details">
+        @if (Model.RemainingWork != null) {
+            @Html.HiddenFor(model => model.RemainingWork)
+        }
+
+        <div id="details" data-states='@Html.Action("GetReasons", new { id = Model.ID })'>
             <div class="editor-label">
                 @Html.LabelFor(model => model.Hours)
             </div>
             <div class="editor-field">
                 @Html.EditorFor(model => model.Hours)
+                @Html.ValidationMessageFor(model => model.Hours, "*")
             </div>
             <div class="editor-label">
                 @Html.LabelFor(model => model.State)
+                @Html.ValidationMessageFor(model => model.State, "*")
             </div>
-            <div class="editor-field tst">
+            <div class="editor-field">
                 @Html.DropDownListFor(model => model.State, Model.NextStates.ToSelectList())
             </div>
-            @if (Model.HasBugRelated)
-            {
-                <div id="dvReason">
-                    @Html.Action("GetReasons", new { id = Model.ID })
+
+            <div id="taskReason">
+                <div class="editor-label">
+                    <label for="Reason">Reason</label>
                 </div>
+                <div class="editor-field">
+                    <select id="Reason" name="Reason">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+
+            @if (Model.HasBugRelated) {
+            <div id="bugReason">
+                @Html.Action("BugReason", new { id = Model.ID })
+            </div>
             }
         </div>
+
         <div id="comment">
             <div class="editor-label">
                 @Html.LabelFor(model => model.Comment)
@@ -33,8 +53,9 @@
                 @Html.EditorFor(model => model.Comment)
             </div>
         </div>
+        
         <div id="ok">
             <input type="submit" value="OK" />
         </div>
-    </fieldset> 
+    </fieldset>
 }

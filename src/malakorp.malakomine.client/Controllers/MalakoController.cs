@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using Malakorp.MalakoMine.Client.Models;
 using System.Collections.Generic;
 using System.Web.Caching;
+using System.Json;
 
 namespace Malakorp.MalakoMine.Client.Controllers
 {
@@ -17,9 +18,13 @@ namespace Malakorp.MalakoMine.Client.Controllers
 
         public ActionResult Edit(Task task, FormCollection f)
         {
-            var reason = task.State == "Closed" ? (f["Reason"] ?? "").ToString() : "";
+            var taskReason = (f["Reason"] ?? "").ToString();
+            var bugReason = (f["BugReason"] ?? "").ToString();
 
-            repository.UpdateTask(task, reason);
+            if (ModelState.IsValid)
+            {
+                repository.UpdateTask(task, taskReason, bugReason);
+            }
 
             return RedirectToAction("Index");
         }
@@ -41,25 +46,32 @@ namespace Malakorp.MalakoMine.Client.Controllers
             return RedirectToAction("Index");
         }
 
-        public void CreateBugTask(Task task)
+        public ActionResult CreateBugTask(Task task)
         {
             repository.CreateBugTask(task);
-        }
 
-        public IEnumerable<string> GetUserList()
-        {
-            return repository.GetUsers();
+            return RedirectToAction("Index");
         }
 
         [ChildActionOnly]
-        public ActionResult GetReasons(int id)
+        public ActionResult BugReason(int id)
         {
-            return PartialView(repository.GetReasons(id));
+            return PartialView(repository.GetReasons(id, "Closed"));
         }
 
-        public ActionResult Login()
+        public JsonResult GetReason(int id, string state)
         {
-            return View();
+            return Json(repository.GetReasons(id, state), JsonRequestBehavior.AllowGet);
+        }
+        [ChildActionOnly]
+        public string GetReasons(int id)
+        {
+            return new JsonObject(
+                repository
+                    .GetReasons(id)
+                    .Select(g => new KeyValuePair<string, JsonValue>(g.Key,
+                        new JsonArray(g.Select(x => new JsonObject(new KeyValuePair<string, JsonValue>("val", (JsonValue) x))))))
+                ).ToString();
         }
     }
 }

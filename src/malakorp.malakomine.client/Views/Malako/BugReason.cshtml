@@ -1,8 +1,10 @@
 ﻿@using Malakorp.MalakoMine.Client.Models
 @model IEnumerable<string>
+
 <div class="editor-label">
     Razão de Fechamento do Bug
 </div>
+
 <div class="editor-field">
-    @Html.DropDownList("Reason", Model.ToSelectList())
+    @Html.DropDownList("BugReason", Model.ToSelectList())
 </div>

@@ -1,0 +1,5 @@
+C:\Malakorp\MalakoMine\build\Malako.TFSProxy.dll
+C:\Malakorp\MalakoMine\build\Malako.TFSProxy.pdb
+C:\Malakorp\MalakoMine\src\malakorp.malakomine.tfsproxy\obj\Debug\ResolveAssemblyReference.cache
+C:\Malakorp\MalakoMine\src\malakorp.malakomine.tfsproxy\obj\Debug\Malako.TFSProxy.dll
+C:\Malakorp\MalakoMine\src\malakorp.malakomine.tfsproxy\obj\Debug\Malako.TFSProxy.pdb

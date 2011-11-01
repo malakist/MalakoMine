@@ -2,7 +2,7 @@
 
 @model Task
            
-@using (Html.BeginForm()) {
+@using (Html.BeginForm("CreateBugTask", "Malako")) {
     @Html.ValidationSummary()
     <fieldset id="fs @Model.ID">
         @Html.HiddenFor(model => model.ID)
@@ -14,7 +14,7 @@
                 @Html.EditorFor(model => model.Title)
             </div>
 
-@*            <div class="editor-label">
+          @*<div class="editor-label">
                 @Html.LabelFor(model => model.State)
             </div>
             <div class="editor-field">
