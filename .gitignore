@@ -1,7 +1,9 @@
-*.ncb
+#gitignore rules
+*.cache
+*.bin
+*.obj
 *.exe
 *.dll
+*.tlog
 *.pdb
-*.suo
-*.user
 

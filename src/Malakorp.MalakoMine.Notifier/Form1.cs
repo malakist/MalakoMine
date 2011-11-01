@@ -7,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Threading;
-using Malakorp.MalakoMine.TFSProxy;
+using Malakorp.MalakoMine.TFS;
+using System.Net;
 
 namespace Malakorp.MalakoMine.Notifier
 {
     public partial class Form1 : Form
     {
-        private Proxy proxy = null;
         private System.Windows.Forms.Timer timer = null;
         private DateTime dataUltimaAnalise = DateTime.MinValue; //TODO: isto deveria poder ser gravado e recuperado de um arquivo
         NotifyIcon notIcon = null;
@@ -36,7 +36,9 @@ namespace Malakorp.MalakoMine.Notifier
 
         private void PlaySound()
         {
+#if PLAY_SOUND
             ThreadPool.QueueUserWorkItem((o) => { PlayMarioSong(); });
+#endif
         }
 
         private void PlayMarioSong()
@@ -70,7 +72,28 @@ namespace Malakorp.MalakoMine.Notifier
 
         void timer_Tick(object sender, EventArgs e)
         {
-            Notifications("Tem trabalho pra você. Consulte o TFS ou o MalakoMine para maiores informações");            
+            try
+            {
+                TFS.TFSMalako malako = new TFS.TFSMalako();
+
+                malako.ServerName = "http://itgvs17:8080/tfs/defaultcollection";
+                malako.ProjectName = "Boletos";
+                // malako.Credentials = System.Security.Principal.WindowsIdentity.GetCurrent().;
+                malako.Credentials = System.Net.CredentialCache.DefaultNetworkCredentials;
+
+                //Uri uri = new Uri("http://tempuri.org/");
+                //ICredentials credentials = CredentialCache.DefaultCredentials;
+                //NetworkCredential credential = credentials.GetCredential(uri, "Basic");
+
+                malako.Connect();
+                if (malako.ThereAreNewTasksSince(DateTime.Today))
+                    Notifications("Tem trabalho pra você. Consulte o TFS ou o MalakoMine para maiores informações");                
+            }
+            catch
+            {
+                //TODO: não, não vai ficar desse jeito, não vou engolir a exception... Não sou tão coxinha assim
+                Notifications("Ocorreu um erro durante a conexão com o TFS", false);
+            }
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
