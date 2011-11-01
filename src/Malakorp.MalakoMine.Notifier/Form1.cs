@@ -74,12 +74,7 @@ namespace Malakorp.MalakoMine.Notifier
         {
             try
             {
-                TFS.TFSMalako malako = new TFS.TFSMalako();
-
-                malako.ServerName = "http://itgvs17:8080/tfs/defaultcollection";
-                malako.ProjectName = "Boletos";
-                // malako.Credentials = System.Security.Principal.WindowsIdentity.GetCurrent().;
-                malako.Credentials = System.Net.CredentialCache.DefaultNetworkCredentials;
+                TFS.MalaKueryProvider malako = new TFS.MalaKueryProvider("http://itgvs17:8080/tfs/defaultcollection", "Boletos", System.Net.CredentialCache.DefaultNetworkCredentials);
 
                 //Uri uri = new Uri("http://tempuri.org/");
                 //ICredentials credentials = CredentialCache.DefaultCredentials;

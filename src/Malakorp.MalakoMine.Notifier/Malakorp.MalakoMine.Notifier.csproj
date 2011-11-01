@@ -84,9 +84,9 @@
     <Content Include="mariosong.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\malakorp.malakomine.tfsproxy\Malakorp.MalakoMine.TFSProxy.csproj">
-      <Project>{F598576E-B17E-43E1-A9CB-90AB7A2381C4}</Project>
-      <Name>Malakorp.MalakoMine.TFSProxy</Name>
+    <ProjectReference Include="..\Malakorp.MalakoMine.TFS\Malakorp.MalakoMine.TFS.csproj">
+      <Project>{3B4E7B4D-9FA4-47AC-9A23-AAE1A25F7285}</Project>
+      <Name>Malakorp.MalakoMine.TFS</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
