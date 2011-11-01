@@ -3,3 +3,8 @@ C:\Malakorp\MalakoMine\build\Malako.TFSProxy.pdb
 C:\Malakorp\MalakoMine\src\malakorp.malakomine.tfsproxy\obj\Debug\ResolveAssemblyReference.cache
 C:\Malakorp\MalakoMine\src\malakorp.malakomine.tfsproxy\obj\Debug\Malako.TFSProxy.dll
 C:\Malakorp\MalakoMine\src\malakorp.malakomine.tfsproxy\obj\Debug\Malako.TFSProxy.pdb
+c:\Projetos\malakorp\MalakoMine\build\Malako.TFSProxy.dll
+c:\Projetos\malakorp\MalakoMine\build\Malako.TFSProxy.pdb
+c:\Projetos\malakorp\MalakoMine\src\malakorp.malakomine.tfsproxy\obj\Debug\ResolveAssemblyReference.cache
+c:\Projetos\malakorp\MalakoMine\src\malakorp.malakomine.tfsproxy\obj\Debug\Malako.TFSProxy.dll
+c:\Projetos\malakorp\MalakoMine\src\malakorp.malakomine.tfsproxy\obj\Debug\Malako.TFSProxy.pdb

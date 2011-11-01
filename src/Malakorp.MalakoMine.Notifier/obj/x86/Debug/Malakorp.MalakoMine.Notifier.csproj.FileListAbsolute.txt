@@ -7,3 +7,12 @@ C:\Malakorp\MalakoMine\src\malakorp.malakomine.notifier\obj\x86\Debug\GenerateRe
 C:\Malakorp\MalakoMine\src\malakorp.malakomine.notifier\obj\x86\Debug\GenerateResource.write.1.tlog
 C:\Malakorp\MalakoMine\src\malakorp.malakomine.notifier\obj\x86\Debug\mlknotifier.exe
 C:\Malakorp\MalakoMine\src\malakorp.malakomine.notifier\obj\x86\Debug\mlknotifier.pdb
+c:\Projetos\malakorp\MalakoMine\build\mlknotifier.exe
+c:\Projetos\malakorp\MalakoMine\build\mlknotifier.pdb
+c:\Projetos\malakorp\MalakoMine\src\malakorp.malakomine.notifier\obj\x86\Debug\ResolveAssemblyReference.cache
+c:\Projetos\malakorp\MalakoMine\src\malakorp.malakomine.notifier\obj\x86\Debug\Malakorp.MalakoMine.Notifier.Form1.resources
+c:\Projetos\malakorp\MalakoMine\src\malakorp.malakomine.notifier\obj\x86\Debug\Malakorp.MalakoMine.Notifier.Properties.Resources.resources
+c:\Projetos\malakorp\MalakoMine\src\malakorp.malakomine.notifier\obj\x86\Debug\GenerateResource.read.1.tlog
+c:\Projetos\malakorp\MalakoMine\src\malakorp.malakomine.notifier\obj\x86\Debug\GenerateResource.write.1.tlog
+c:\Projetos\malakorp\MalakoMine\src\malakorp.malakomine.notifier\obj\x86\Debug\mlknotifier.exe
+c:\Projetos\malakorp\MalakoMine\src\malakorp.malakomine.notifier\obj\x86\Debug\mlknotifier.pdb
