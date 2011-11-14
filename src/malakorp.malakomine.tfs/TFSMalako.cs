@@ -15,7 +15,7 @@ namespace Malakorp.MalakoMine.TFS
 {
     public class MalaKueryProvider
     {
-        //deprecated
+        //loadtf
         TeamFoundationServer server;
         WorkItemStore store;
         Project project;
@@ -156,7 +156,7 @@ namespace Malakorp.MalakoMine.TFS
         /// Recupera as tarefas atribuidas ao usuário logado
         /// </summary>
         /// <returns></returns>
-        private WorkItemCollection PrivateGetTasks(System.DateTime? sinceDateTime)
+        public WorkItemCollection GetTasks(DateTime? sinceDateTime = null)
         {
             var query = new StringBuilder();
             query.Append(" SELECT [System.Id], [System.WorkItemType]," +
@@ -195,23 +195,14 @@ namespace Malakorp.MalakoMine.TFS
             }
         }
 
-        /// <summary>
-        /// Recupera as tarefas atribuidas ao usuário logado
-        /// </summary>
-        /// <returns></returns>
-        public WorkItemCollection GetTasks()
-        {
-            return PrivateGetTasks(null);
-        }
-
         public WorkItemCollection GetTasksSince(DateTime sinceDateTime)
         {
-            return PrivateGetTasks(sinceDateTime);
+            return GetTasks(sinceDateTime);
         }
 
         public bool ThereAreNewTasksSince(DateTime sinceDateTime)
         {
-            return (GetTasksSince(sinceDateTime).Count > 0);
+            return GetTasksSince(sinceDateTime).Count > 0;
         }
 
         /// <summary>

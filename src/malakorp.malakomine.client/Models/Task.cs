@@ -28,7 +28,7 @@ namespace Malakorp.MalakoMine.Client.Models
         public string WorkItemType { get; set; }
         public IEnumerable<string> NextStates { get; set; }
         public bool HasBugRelated { get; set; }
-        public float? RemainingWork { get; set; }
+        public double? RemainingWork { get; set; }
     }
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = false, Inherited = true)]
     public class HoursValidationAttribute : ValidationAttribute

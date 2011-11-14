@@ -130,23 +130,18 @@
         }).change();
 
         $('form').submit(function () {
-            var remaining = $(this).children('#RemainingWork')
-            alert(remaining);
+            var remaining = $(this).find('#RemainingWork').first();
             if (remaining) {
-                var completed = $(this).children('#Hours');
-                alert('in');
+                var completed = $(this).find('#Hours').first();
 
-                if (remaining.val() === completed.val()) {
-                    alert('in2');
+                //alert(remaining.val() + completed.val());
+                if (remaining.val() === completed.val() && ) {
                     return true;
                 } else {
-                    alert('out2');
-                    if (confirm("Horas da Tarefa não são iguais as horas restantes. Deseja completear a diferença?")) {
+                    if (confirm("Horas da Tarefa não são iguais as horas restantes. Zerar horas restantes?")) {
                         completed = remaining;
-                        alert('in3');
                         return true;
                     } else {
-                        alert('out3');
                         return false;
                     }
                 }

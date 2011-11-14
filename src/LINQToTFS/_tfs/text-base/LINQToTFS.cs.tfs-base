@@ -1,0 +1,208 @@
+﻿using System;
+using System.Text;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using Microsoft.TeamFoundation;
+using Microsoft.TeamFoundation.Client;
+using Microsoft.TeamFoundation.WorkItemTracking.Client;
+
+namespace PlainConcepts.LinqToTfs
+{
+    public static class QueryableStore
+    {
+        public static QueryableItemStore<WorkItem> ToQueryable(this WorkItemStore wis)
+        {
+            return new QueryableItemStore<WorkItem>(wis);
+        }
+    }
+
+    public class QueryableItemStore<WorkItem> : IOrderedQueryable<WorkItem>
+    {
+        private WorkItemStore _wis = null;
+
+        public QueryableItemStore(WorkItemStore wis)
+        {
+            _wis = wis;
+        }
+
+        #region IQueryable<WorkItem> Members
+
+        private Expression condition = null;
+
+        private IQueryable<WorkItem> createQuery<WorkItem>(Expression e)
+        {
+            MethodCallExpression mc = e as MethodCallExpression;
+            switch (mc.Method.Name)
+            {
+                case "Where":
+                    LambdaExpression expr1 =
+                        (mc.Arguments[1] as UnaryExpression).Operand as LambdaExpression;
+                    if (condition == null)
+                        condition = expr1;
+                    else
+                    {
+                        condition = Expression.And(condition, expr1);
+                    }
+                    return this as IOrderedQueryable<WorkItem>;
+                case "OrderBy":
+                    LambdaExpression expr2 =
+                        (mc.Arguments[1] as UnaryExpression).Operand as LambdaExpression;
+                    // TODO: sortCriteria.Add(expr2);
+                    return this as IOrderedQueryable<WorkItem>;
+                case "Select":
+                    /* TODO:
+                       LambdaExpression expr3 =
+                        (mc.Arguments[1] as UnaryExpression).Operand as LambdaExpression;
+                       fieldList.Add(expr3);
+                     */
+                    return this as IOrderedQueryable<WorkItem>;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        public IQueryable<WorkItem> CreateQuery<WorkItem>(Expression e)
+        {
+            return createQuery<WorkItem>(e);
+        }
+
+        public TResult Execute<TResult>(Expression expression)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region IEnumerable<WorkItem> Members
+
+        Dictionary<string, string> translations = new Dictionary<string, string> {
+                { "CreatedBy",     "[Created By]" },
+                { "CreatedDate",   "[Created Date]" },
+                { "Id",            "[Id]" },
+                { "Title",         "[Title]" },
+                { "Project.Name",  "[System.TeamProject]" }
+            };
+
+        private string translateCondition(Expression condition)
+        {
+            if (condition == null)
+                return "";
+            switch (condition.NodeType)
+            {
+                case ExpressionType.And:
+                case ExpressionType.AndAlso:
+                    return translateCondition((condition as BinaryExpression).Left) +
+                        " AND " +
+                        translateCondition((condition as BinaryExpression).Right);
+                case ExpressionType.Or:
+                case ExpressionType.OrElse:
+                    return translateCondition((condition as BinaryExpression).Left) +
+                        " OR " +
+                        translateCondition((condition as BinaryExpression).Right);
+                case ExpressionType.Equal:
+                    return translateCondition((condition as BinaryExpression).Left) +
+                        " = " +
+                        translateCondition((condition as BinaryExpression).Right);
+                case ExpressionType.NotEqual:
+                    return translateCondition((condition as BinaryExpression).Left) +
+                        " = " +
+                        translateCondition((condition as BinaryExpression).Right);
+                case ExpressionType.GreaterThan:
+                    return translateCondition((condition as BinaryExpression).Left) +
+                        " > " +
+                        translateCondition((condition as BinaryExpression).Right);
+                case ExpressionType.GreaterThanOrEqual:
+                    return translateCondition((condition as BinaryExpression).Left) +
+                        " >= " +
+                        translateCondition((condition as BinaryExpression).Right);
+                case ExpressionType.LessThan:
+                    return translateCondition((condition as BinaryExpression).Left) +
+                        " < " +
+                        translateCondition((condition as BinaryExpression).Right);
+                case ExpressionType.LessThanOrEqual:
+                    return translateCondition((condition as BinaryExpression).Left) +
+                        " <= " +
+                        translateCondition((condition as BinaryExpression).Right);
+                case ExpressionType.Constant:
+                    {
+                        ConstantExpression c = condition as ConstantExpression;
+                        if (c.Type == typeof(string))
+                            return "'" + c.Value.ToString() + "'";
+                        else
+                            return c.Value.ToString();
+                    }
+                    break;
+                case ExpressionType.MemberAccess:
+                    {
+                        MemberExpression m = condition as MemberExpression;
+                        string name = m.ToString();
+                        string pName = name.Substring(name.IndexOf('.') + 1);
+                        return translations[pName];
+                    }
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        private string translateSortCriteria(Expression criteria)
+        {
+            return "";
+        }
+
+        private IEnumerator<WorkItem> getEnumerator()
+        {
+            // generate query
+            StringBuilder sb = new StringBuilder("SELECT Id ");
+            sb.Append("\nFROM WorkItems");
+            if (condition != null)
+                sb.Append("\n WHERE " + translateCondition((condition as LambdaExpression).Body));
+            // send it to TFS
+            WorkItemCollection collection = _wis.Query(sb.ToString());
+            // return enumerator
+            foreach(WorkItem wi in collection)
+                yield return wi;
+        }
+
+        public IEnumerator<WorkItem> GetEnumerator()
+        {
+            return getEnumerator();
+        }
+
+        #endregion
+
+        #region IEnumerable Members
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return getEnumerator();
+        }
+
+        #endregion
+
+        #region IQueryable Members
+
+        public IQueryable CreateQuery(Expression expression)
+        {
+            return createQuery<WorkItem>(expression);
+        }
+
+        public Type ElementType
+        {
+            get { return typeof(WorkItem); }
+        }
+
+        public object Execute(Expression expression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Expression Expression
+        {
+            get { return Expression.Constant(this); }
+        }
+
+        #endregion
+    }
+}

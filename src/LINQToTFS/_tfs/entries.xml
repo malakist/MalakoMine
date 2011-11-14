@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<entries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <entry name="" kind="folder" url="https://tfs03.codeplex.com:443/" path="$/LinqToTfs/LINQToTFS/" id="116159" changeset="8481" shadow="e5e5f93af764424c973662903adfbf11" />
+  <entry name="LINQToTFS.cs" kind="file" id="116162" changeset="8481" />
+  <entry name="LINQToTFS.csproj" kind="file" id="116163" changeset="8481" />
+  <entry name="Properties" kind="folder" id="116164" changeset="8481" shadow="6430e95aaa53426d84366f77adc94279" />
+</entries>

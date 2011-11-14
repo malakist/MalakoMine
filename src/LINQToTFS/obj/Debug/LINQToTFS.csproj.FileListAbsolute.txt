@@ -1,0 +1,5 @@
+C:\Malakorp\MalakoMine\src\LINQToTFS\obj\Debug\ResolveAssemblyReference.cache
+C:\Malakorp\MalakoMine\src\LINQToTFS\bin\Debug\LINQToTFS.dll
+C:\Malakorp\MalakoMine\src\LINQToTFS\bin\Debug\LINQToTFS.pdb
+C:\Malakorp\MalakoMine\src\LINQToTFS\obj\Debug\LINQToTFS.dll
+C:\Malakorp\MalakoMine\src\LINQToTFS\obj\Debug\LINQToTFS.pdb

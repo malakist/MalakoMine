@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<entries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <entry name="" kind="folder" url="https://tfs03.codeplex.com:443/" path="$/LinqToTfs/LINQToTFS/Properties/" id="116164" changeset="8481" shadow="6430e95aaa53426d84366f77adc94279" />
+  <entry name="AssemblyInfo.cs" kind="file" id="116165" changeset="8481" />
+</entries>

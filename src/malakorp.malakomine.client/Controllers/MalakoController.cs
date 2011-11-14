@@ -66,12 +66,11 @@ namespace Malakorp.MalakoMine.Client.Controllers
         [ChildActionOnly]
         public string GetReasons(int id)
         {
-            return new JsonObject(
-                repository
-                    .GetReasons(id)
-                    .Select(g => new KeyValuePair<string, JsonValue>(g.Key,
-                        new JsonArray(g.Select(x => new JsonObject(new KeyValuePair<string, JsonValue>("val", (JsonValue) x))))))
-                ).ToString();
+            //Uma bagunça horrível pra montar um json simples. C# coxinha...
+            return new JsonObject(repository.GetReasons(id).Select(g =>
+                new KeyValuePair<string, JsonValue>(g.Key, new JsonArray(g.Select(x =>
+                    new JsonObject(new KeyValuePair<string, JsonValue>("val", (JsonValue) x))))))
+            ).ToString();
         }
     }
 }
